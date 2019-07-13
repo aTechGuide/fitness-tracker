@@ -1,9 +1,18 @@
 import React from 'react';
+import {AppBar, Toolbar, Typography, Button} from '@material-ui/core';
+import 'typeface-roboto';
 
-const Header = () => {
+export default function Header() {
+
   return (
-    <h1>Header</h1>
+    <div >
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h4" component="h1">
+            Exercise Database
+          </Typography>
+        </Toolbar>
+      </AppBar>
+    </div>
   );
 }
-
-export default Header;
