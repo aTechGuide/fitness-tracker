@@ -12,6 +12,13 @@ class App extends React.Component {
   }
 
   getExercisesByMuscles() {
+    
+
+    const initialExercises = muscles.reduce((exercises, category) => ({
+      ...exercises,
+      [category]: []
+    }), {})
+
     /**
      * exercises is the Accumulator
      * exercise is the current Exercise in question
@@ -19,9 +26,9 @@ class App extends React.Component {
     return Object.entries(this.state.exercises.reduce((exercises, exercise) => {
       const {muscles} = exercise;
 
-      exercises[muscles] = exercises[muscles] ? [...exercises[muscles], exercise] : [exercise]
+      exercises[muscles] = [...exercises[muscles], exercise]
       return exercises
-    }, {}))
+    }, initialExercises))
   }
 
   handleCategorySelecte = (category) => {
@@ -45,6 +52,12 @@ class App extends React.Component {
     }))
   }
 
+  handleExerciseDelete = (id) => {
+    this.setState(({exercises}) => ({
+      exercises: exercises.filter(ex => ex.id !== id)
+    }))
+  }
+
   render() {
 
     const exercises = this.getExercisesByMuscles();
@@ -60,7 +73,8 @@ class App extends React.Component {
           exercises={exercises}
           exercise = {exercise}
           category={category}
-          onSelect={this.handleExerciseSelecte} />
+          onSelect={this.handleExerciseSelecte} 
+          onDelete={this.handleExerciseDelete}/>
 
         <Footer 
           muscles={muscles}
