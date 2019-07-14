@@ -24,15 +24,24 @@ class App extends React.Component {
     }, {}))
   }
 
-  handleCategorySelected = (category) => {
+  handleCategorySelecte = (category) => {
     this.setState({
       category
     })
   }
 
-  handleExerciseSelected = (id) => {
+  handleExerciseSelecte = (id) => {
     this.setState(({exercises}) => ({
       exercise: exercises.find(ex => ex.id  === id)
+    }))
+  }
+
+  handleExerciseCreate = (exercise) => {
+    this.setState(({exercises}) => ({
+      exercises: [
+        ...exercises,
+        exercise
+      ]
     }))
   }
 
@@ -43,18 +52,20 @@ class App extends React.Component {
 
     return (
       <React.Fragment>
-        <Header />
+        <Header 
+          muscles={muscles} 
+          onExerciseCreate={this.handleExerciseCreate}/>
 
         <Exercises 
           exercises={exercises}
           exercise = {exercise}
           category={category}
-          onSelect={this.handleExerciseSelected} />
+          onSelect={this.handleExerciseSelecte} />
 
         <Footer 
           muscles={muscles}
           category={category}
-          onSelect={this.handleCategorySelected} />
+          onSelect={this.handleCategorySelecte} />
       </React.Fragment>
     );
   }
