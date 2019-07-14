@@ -6,6 +6,7 @@ import {muscles, exercises} from '../../store';
 
 class App extends React.Component {
 
+  // State also have an `editMode` object field.
   state = {
     exercises,
     exercise: {}
@@ -37,9 +38,10 @@ class App extends React.Component {
     })
   }
 
-  handleExerciseSelecte = (id) => {
+  handleExerciseSelect = (id) => {
     this.setState(({exercises}) => ({
-      exercise: exercises.find(ex => ex.id  === id)
+      exercise: exercises.find(ex => ex.id  === id),
+      editMode: false,
     }))
   }
 
@@ -54,14 +56,36 @@ class App extends React.Component {
 
   handleExerciseDelete = (id) => {
     this.setState(({exercises}) => ({
-      exercises: exercises.filter(ex => ex.id !== id)
+      exercises: exercises.filter(ex => ex.id !== id),
+      editMode: false,
+      exercise: {}
+    }))
+  }
+
+  handleExerciseSelectEdit = id =>  {
+    this.setState(({exercises}) => ({
+      exercise: exercises.find(ex => ex.id  === id)
+    }))
+
+    this.setState({
+      editMode: true
+    })
+  }
+
+  handleExerciseEdit = exercise => {
+    this.setState(({exercises}) => ({
+      exercises: [
+        ...exercises.filter(ex => ex.id !== exercise.id),
+        exercise
+      ],
+      exercise
     }))
   }
 
   render() {
 
     const exercises = this.getExercisesByMuscles();
-    const {category, exercise} = this.state;
+    const {category, exercise, editMode} = this.state;
 
     return (
       <React.Fragment>
@@ -73,8 +97,12 @@ class App extends React.Component {
           exercises={exercises}
           exercise = {exercise}
           category={category}
-          onSelect={this.handleExerciseSelecte} 
-          onDelete={this.handleExerciseDelete}/>
+          editMode={editMode}
+          muscles={muscles}
+          onSelect={this.handleExerciseSelect} 
+          onDelete={this.handleExerciseDelete}
+          onSelectEdit={this.handleExerciseSelectEdit}
+          onEdit={this.handleExerciseEdit}/>
 
         <Footer 
           muscles={muscles}

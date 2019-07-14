@@ -1,81 +1,64 @@
 import React from 'react';
-import {Dialog, DialogContent, DialogTitle, DialogContentText, DialogActions, Button, Fab, TextField} from '@material-ui/core/';
-import {FormControl,FormHelperText, InputLabel, MenuItem, Select} from '@material-ui/core/';
-import {Add} from '@material-ui/icons/';
+import {FormControl,FormHelperText, InputLabel, MenuItem, Select, TextField, Button} from '@material-ui/core/';
 import { withStyles } from '@material-ui/core/styles';
 
 
 const styles = theme => ({
   FormControl: {
-    width: 500
+    width: 300
   }
 })
 
-export default withStyles(styles)(class extends React.Component {
+/**
+ * This component is maintaining its state based on the props that it is receiving
+ */
+export default (withStyles(styles))(class extends React.Component {
 
-  state = {
-    open: false, 
-    exercise: {
+  state = this.getInitialState()
+
+  getInitialState() {
+    const {exercise} = this.props;
+
+    return exercise ? exercise : {
       title: '',
       description: '',
       muscles: ''
     }
   }
 
-  handleToggle = () => {
+  // In this method we are Syncing the State of the From component with the props that it is receiving.
+  componentWillReceiveProps(nextProps) {
     this.setState({
-      open: !this.state.open
+      ...nextProps.exercise
     })
   }
 
   handleChange = name => event => {
     this.setState({
-      exercise: {
-        ...this.state.exercise,
       [name]: event.target.value
-      }
     })
   };
   
   handleSubmit = () => {
     // Validation
 
-    const {exercise} = this.state
-    this.props.onCreate({
-      ...exercise,
-      id: exercise.title.toLocaleLowerCase().replace(/ /g, '-')
+    // We are setting id first because in case of Edit we already have an `id` so this `id` will be over ridded.
+    this.props.onSubmit({
+      id: this.state.title.toLocaleLowerCase().replace(/ /g, '-'),
+      ...this.state
     })
 
-    this.setState({
-      open: false,
-      exercise: {
-        title: '',
-        description: '',
-        muscles: ''
-      }
-    })
+    this.setState(this.getInitialState());
   }
 
   render() {
 
-    const {open, exercise: {title, description, muscles}} = this.state
-    const {muscles: categories, classes} = this.props
+    const {title, description, muscles} = this.state;
+    const {muscles: categories, classes, exercise} = this.props
 
     return (
       <React.Fragment>
-        <Fab color="primary" onClick={this.handleToggle} >
-          <Add />
-        </Fab>
-  
-        <Dialog open={open} onClose={this.handleToggle} >
-            <DialogTitle id="form-dialog-title">
-              Create a New Exercise
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Please fill out the form Below
-              </DialogContentText>
-              <TextField
+        <TextField
                 label="Title"
                 value={title}
                 onChange={this.handleChange('title')}
@@ -106,14 +89,11 @@ export default withStyles(styles)(class extends React.Component {
                 rows="4"
                 className={classes.FormControl}
               />
-            </DialogContent>
-            <DialogActions>
+              <br/>
               <Button color="primary" variant="outlined" onClick={this.handleSubmit}>
-                Create
+                {exercise ? 'Edit' : 'Create'}
               </Button>
-            </DialogActions>
-          </Dialog>
-        </React.Fragment>
-    ); 
+      </React.Fragment>
+    );
   }
 })

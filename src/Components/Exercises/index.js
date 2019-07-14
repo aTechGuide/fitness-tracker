@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, Paper, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton } from "@material-ui/core";
-import {Delete} from '@material-ui/icons/';
+import {Delete, Edit} from '@material-ui/icons/';
+import Form from "./Form";
 
 const styles = {
   Paper: {
@@ -12,7 +13,7 @@ const styles = {
   }
 };
 
-export default ({exercises, exercise: {id, title = 'Welcome!', description = 'Please select an exercise from the list on the left.'}, category, onSelect, onDelete}) => (
+export default ({editMode, muscles, exercises, exercise, exercise: {id, title = 'Welcome!', description = 'Please select an exercise from the list on the left.'}, category, onSelect, onDelete, onSelectEdit, onEdit}) => (
   <Grid container>
     <Grid item sm>
       <Paper style={styles.Paper}>
@@ -33,6 +34,9 @@ export default ({exercises, exercise: {id, title = 'Welcome!', description = 'Pl
                       
                       <ListItemText primary={title} />
                       <ListItemSecondaryAction>
+                      <IconButton onClick={() => onSelectEdit(id)} >
+                          <Edit />
+                        </IconButton>
                         <IconButton onClick={() => onDelete(id)} >
                           <Delete />
                         </IconButton>
@@ -50,12 +54,20 @@ export default ({exercises, exercise: {id, title = 'Welcome!', description = 'Pl
 
     <Grid item sm>
       <Paper style={styles.Paper}>
-        <Typography variant="h4" >
-          {title}
+        {editMode 
+        ? <Form 
+          exercise={exercise}
+          muscles={muscles}
+          onSubmit={onEdit} />
+        : <React.Fragment>
+          <Typography variant="h4" >
+            {title}
+          </Typography>
+          <Typography variant="body1" style={{marginTop: 20}}>
+            {description}
         </Typography>
-        <Typography variant="body1" style={{marginTop: 20}}>
-          {description}
-        </Typography>
+        </React.Fragment> }
+        
       </Paper>
     </Grid>
   </Grid>
