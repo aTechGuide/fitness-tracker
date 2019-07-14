@@ -1,8 +1,7 @@
 # Fitness Tracker
 This App Has following Capabilities
-- It loads basic exercises from a Store
-- User can Create a new Exercise
-- User can Delete an existing Exercise
+- It loads exercises from a Store
+- User can Create, Edit, Delete an Exercise
 
 ## Tech Stack
 - React
