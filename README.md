@@ -7,6 +7,7 @@ This App Has following Capabilities
 - React
 - Material UI
 - Material Icons
+- CSS in JS
 
 
 # Resources

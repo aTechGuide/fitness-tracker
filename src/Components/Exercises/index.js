@@ -54,19 +54,20 @@ export default ({editMode, muscles, exercises, exercise, exercise: {id, title = 
 
     <Grid item sm>
       <Paper style={styles.Paper}>
+        <Typography variant="h4" gutterBottom >
+          {title}
+        </Typography>
         {editMode 
         ? <Form 
+          key={id}
           exercise={exercise}
           muscles={muscles}
           onSubmit={onEdit} />
-        : <React.Fragment>
-          <Typography variant="h4" >
-            {title}
-          </Typography>
-          <Typography variant="body1" style={{marginTop: 20}}>
+        : 
+          <Typography variant="body1" >
             {description}
-        </Typography>
-        </React.Fragment> }
+          </Typography>
+         }
         
       </Paper>
     </Grid>

@@ -31,7 +31,7 @@ export default class extends React.Component {
           <Add />
         </Fab>
   
-        <Dialog open={open} onClose={this.handleToggle} >
+        <Dialog open={open} onClose={this.handleToggle} fullWidth maxWidth="xs" >
             <DialogTitle>
               Create a New Exercise
             </DialogTitle>

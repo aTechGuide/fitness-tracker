@@ -1,18 +1,10 @@
 import React from 'react';
 import {FormControl,FormHelperText, InputLabel, MenuItem, Select, TextField, Button} from '@material-ui/core/';
-import { withStyles } from '@material-ui/core/styles';
-
-
-const styles = theme => ({
-  FormControl: {
-    width: 300
-  }
-})
 
 /**
  * This component is maintaining its state based on the props that it is receiving
  */
-export default (withStyles(styles))(class extends React.Component {
+export default class extends React.Component {
 
   state = this.getInitialState()
 
@@ -24,13 +16,6 @@ export default (withStyles(styles))(class extends React.Component {
       description: '',
       muscles: ''
     }
-  }
-
-  // In this method we are Syncing the State of the From component with the props that it is receiving.
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      ...nextProps.exercise
-    })
   }
 
   handleChange = name => event => {
@@ -47,14 +32,12 @@ export default (withStyles(styles))(class extends React.Component {
       id: this.state.title.toLocaleLowerCase().replace(/ /g, '-'),
       ...this.state
     })
-
-    this.setState(this.getInitialState());
   }
 
   render() {
 
     const {title, description, muscles} = this.state;
-    const {muscles: categories, classes, exercise} = this.props
+    const {muscles: categories, exercise} = this.props
 
     return (
       <React.Fragment>
@@ -63,10 +46,10 @@ export default (withStyles(styles))(class extends React.Component {
                 value={title}
                 onChange={this.handleChange('title')}
                 margin="normal"
-                className={classes.FormControl}
+                fullWidth
               />
               <br />
-              <FormControl className={classes.FormControl}>
+              <FormControl fullWidth >
                 <InputLabel htmlFor="muscles">Muscles</InputLabel>
                 <Select
                   value={muscles}
@@ -87,13 +70,17 @@ export default (withStyles(styles))(class extends React.Component {
                 margin="normal"
                 multiline
                 rows="4"
-                className={classes.FormControl}
+                fullWidth
               />
               <br/>
-              <Button color="primary" variant="outlined" onClick={this.handleSubmit}>
+              <Button 
+                color="primary" 
+                variant="outlined" 
+                onClick={this.handleSubmit}
+                disabled={!title || !muscles } >
                 {exercise ? 'Edit' : 'Create'}
               </Button>
       </React.Fragment>
     );
   }
-})
+}
