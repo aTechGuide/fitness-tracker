@@ -1,22 +1,22 @@
 import React from "react";
 import { Grid, Paper, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton } from "@material-ui/core";
 import {Delete, Edit} from '@material-ui/icons/';
+import { withStyles } from '@material-ui/styles'
 import Form from "./Form";
 
-const styles = {
+const styles = themes => ({
   Paper: {
     padding: 20,
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 5,
     height: 500,
     overflowY: 'auto'
   }
-};
+});
 
-export default ({editMode, muscles, exercises, exercise, exercise: {id, title = 'Welcome!', description = 'Please select an exercise from the list on the left.'}, category, onSelect, onDelete, onSelectEdit, onEdit}) => (
+export default withStyles(styles)(({classes,editMode, muscles, exercises, exercise, exercise: {id, title = 'Welcome!', description = 'Please select an exercise from the list on the left.'}, category, onSelect, onDelete, onSelectEdit, onEdit}) => (
   <Grid container>
-    <Grid item sm>
-      <Paper style={styles.Paper}>
+    <Grid item xs={12} sm={6}>
+      <Paper className={classes.Paper}>
         {exercises.map(([group, exercises]) => 
 
           !category || category === group 
@@ -52,8 +52,8 @@ export default ({editMode, muscles, exercises, exercise, exercise: {id, title = 
       </Paper>
     </Grid>
 
-    <Grid item sm>
-      <Paper style={styles.Paper}>
+    <Grid item xs={12} sm={6}>
+      <Paper className={classes.Paper}>
         <Typography variant="h4" gutterBottom >
           {title}
         </Typography>
@@ -72,4 +72,4 @@ export default ({editMode, muscles, exercises, exercise, exercise: {id, title = 
       </Paper>
     </Grid>
   </Grid>
-);
+));
