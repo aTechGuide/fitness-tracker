@@ -2,14 +2,21 @@ import React from 'react';
 import {AppBar, Toolbar, Typography} from '@material-ui/core';
 import 'typeface-roboto';
 import Dialog from '../Exercises/Dialog';
+import { withStyles } from '@material-ui/styles'
 
-export default ({muscles, onExerciseCreate}) => {
+const styles = {
+  flex: {
+    flex: 1
+  }
+}
+
+export default withStyles(styles)(({classes, muscles, onExerciseCreate}) => {
 
   return (
     <div >
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h4" component="h1" style={{flex: 1}}>
+          <Typography variant="h4" component="h1" className={classes.flex}>
             Exercise Database
           </Typography>
           <Dialog muscles={muscles} onCreate={onExerciseCreate}/>
@@ -17,4 +24,4 @@ export default ({muscles, onExerciseCreate}) => {
       </AppBar>
     </div>
   );
-}
+})

@@ -27,7 +27,7 @@ export default class extends React.Component {
 
     return (
       <React.Fragment>
-        <Fab color="primary" onClick={this.handleToggle} >
+        <Fab color='secondary' onClick={this.handleToggle} size='small'>
           <Add />
         </Fab>
   
