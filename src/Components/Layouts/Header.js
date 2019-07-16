@@ -10,7 +10,7 @@ const styles = {
   }
 }
 
-export default withStyles(styles)(({classes, muscles, onExerciseCreate}) => {
+export default withStyles(styles)(({classes, onExerciseCreate}) => {
 
   return (
     <div >
@@ -19,7 +19,7 @@ export default withStyles(styles)(({classes, muscles, onExerciseCreate}) => {
           <Typography variant="h4" component="h1" className={classes.flex}>
             Exercise Database
           </Typography>
-          <Dialog muscles={muscles} onCreate={onExerciseCreate}/>
+          <Dialog onCreate={onExerciseCreate}/>
         </Toolbar>
       </AppBar>
     </div>

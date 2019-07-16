@@ -1,9 +1,11 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Header from '../Layouts/Header';
-import Footer from '../Layouts/Footer';
-import Exercises from '../Exercises';
-import {muscles, exercises} from '../../store';
+import Header from './Layouts/Header';
+import Footer from './Layouts/Footer';
+import Exercises from './Exercises';
+import {muscles, exercises} from '../store';
+import {Provider} from '../context';
+
 
 class App extends React.Component {
 
@@ -83,34 +85,40 @@ class App extends React.Component {
     }))
   }
 
+  getContext = () => ({
+    muscles,
+    ...this.state
+  })
+
   render() {
 
     const exercises = this.getExercisesByMuscles();
     const {category, exercise, editMode} = this.state;
 
     return (
-      <React.Fragment>
-        <CssBaseline />
-        <Header 
-          muscles={muscles} 
-          onExerciseCreate={this.handleExerciseCreate}/>
+      <Provider value={this.getContext()}>
+        <React.Fragment>
+          <CssBaseline />
+          <Header 
+            onExerciseCreate={this.handleExerciseCreate}/>
 
-        <Exercises 
-          exercises={exercises}
-          exercise = {exercise}
-          category={category}
-          editMode={editMode}
-          muscles={muscles}
-          onSelect={this.handleExerciseSelect} 
-          onDelete={this.handleExerciseDelete}
-          onSelectEdit={this.handleExerciseSelectEdit}
-          onEdit={this.handleExerciseEdit}/>
+          <Exercises 
+            exercises={exercises}
+            exercise = {exercise}
+            category={category}
+            editMode={editMode}
+            muscles={muscles}
+            onSelect={this.handleExerciseSelect} 
+            onDelete={this.handleExerciseDelete}
+            onSelectEdit={this.handleExerciseSelectEdit}
+            onEdit={this.handleExerciseEdit}/>
 
-        <Footer 
-          muscles={muscles}
-          category={category}
-          onSelect={this.handleCategorySelecte} />
-      </React.Fragment>
+          <Footer 
+            muscles={muscles}
+            category={category}
+            onSelect={this.handleCategorySelecte} />
+        </React.Fragment>
+      </Provider>
     );
   }
   
